@@ -50,25 +50,55 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const audio = document.getElementById('bg-music');
 const muteButton = document.getElementById('mute-btn');
+const volumeSlider = document.getElementById('volume-slider');
 
-// Toggle mute state when the button is clicked
-muteButton.addEventListener('click', function() {
-  audio.muted = !audio.muted;
+function updateSliderFill() {
+  const value = volumeSlider.value * 100; // Convert 0-1 to percentage
+  volumeSlider.style.background = `linear-gradient(to top, #f8ad9d ${value}%, white ${value}%)`;
+  audio.volume = volumeSlider.value;
+}
 
-  if (!audio.muted && audio.paused) {
-    audio.play().catch(err => console.log("Playback failed: ", err));
-  }
-  
-  if (audio.muted) {
-    muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
-  } else {
-    muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-  };
+// Update fill when moving the slider
+volumeSlider.addEventListener("input", updateSliderFill);
 
-   // Add the animate class to trigger the pulse animation.
-   muteButton.classList.add('animate');
-   // Remove the class after the animation completes.
-   setTimeout(() => {
-     muteButton.classList.remove('animate');
-   }, 300);
+// Initialize on load
+updateSliderFill();
+
+// Adjust volume based on slider
+volumeSlider.addEventListener('input', function() {
+    audio.volume = this.value;
+    muteButton.innerHTML = audio.volume == 0 ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
 });
+
+// Toggle mute when clicking the button
+muteButton.addEventListener('click', function() {
+    audio.muted = !audio.muted;
+    
+    if (!audio.muted && audio.paused) {
+        audio.play().catch(err => console.log("Playback failed: ", err));
+    }
+    
+    muteButton.innerHTML = audio.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+    
+    // Add animation
+    muteButton.classList.add('animate');
+    setTimeout(() => {
+        muteButton.classList.remove('animate');
+    }, 300);
+});
+
+volumeSlider.addEventListener('input', function() {
+    // Unmute and play the audio automatically
+    audio.muted = false;
+    if (audio.paused) {
+      audio.play().catch(err => console.log("Playback failed: ", err));
+    }
+    
+    // Update the volume and slider fill
+    audio.volume = this.value;
+    updateSliderFill();
+    
+    // Update the mute button icon
+    muteButton.innerHTML = this.value == 0 ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+  });
+  

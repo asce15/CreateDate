@@ -2,7 +2,6 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-
     background-color: #fae1dd;
 }
 
@@ -310,33 +309,87 @@ body{
 .heart.pop {
     animation: pop 0.4s forwards; /* 0.2s pop animation, forwards to keep the final state */
 }
-
-.mute-button {
+.mute-container {
     position: fixed;
     top: 10px;
     right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.volume-control {
+    position: absolute;
+    top: 50px;
+    right: 50%;
+    transform: translateX(50%);
     z-index: 1000;
-    padding: 10px 20px;
     background-color: #d62828;
-    color: #fff;
-    border: none;
+    padding: 10px;
     border-radius: 5px;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mute-container:hover .volume-control {
+    opacity: 1;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    writing-mode: vertical-lr; /* Makes the slider vertical */
+    direction: rtl; 
+    height: 100px;
+    width: 10px;
+    background: linear-gradient(to top, red 0%, white 0%); /* Dynamic fill */
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #f8ad9d !important; /* Forces red color */
+    border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-  }
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
 
-  .mute-button.animate {
+/* Hover Effect */
+.volume-slider:hover::-webkit-slider-thumb,
+.volume-slider:hover::-moz-range-thumb {
+    background: red !important; /* Changes color on hover */
+    transform: scale(1.2);
+}
+
+.volume-button {
+    background-color: #d62828;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.volume-button:hover {
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}
+
+.volume-button.animate {
     animation: pulse 0.3s ease-in-out;
-  }
+}
 
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
