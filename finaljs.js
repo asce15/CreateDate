@@ -187,46 +187,61 @@ const steps = [
   }
 
   function nextStep() {
-    // For step 3 ("When:"), get time and date inputs
+       // Save the "Other" input value before moving to the next step
+       if (otherSelected) {
+        selectOtherChoice(); // Save the value first
+    }
+
+    // For step 3 ("Pick a date and time"), get time and date inputs
     if (currentStep === 3) {
         const timeValue = document.getElementById("timeInput").value;
         const dateValue = document.getElementById("dateInput").value;
         if (!timeValue || !dateValue) {
-          alert("Please select both a time and a date.");
-          return;
+            alert("Please select both a time and a date.");
+            return;
         }
-        // Convert time to AM/PM format
-        const timeAmPm = convertToAmPm(timeValue);
-        selections[currentStep] = { time: timeAmPm, date: dateValue };
-      } else {
+        selections[currentStep] = { time: convertToAmPm(timeValue), date: dateValue };
+    } else {
         if (!selections[currentStep]) {
-          alert("Please select an option or enter one in 'Other'.");
-          return;
+            alert("Please select an option or enter one in 'Other'.");
+            return;
         }
-      }
+    }
+
+    // Hide the "Other" input box and reset its value
+    document.getElementById("otherInput").style.display = "none"; // Hide the input box
+    document.getElementById("otherPlace").value = ""; // Clear the input field
+    otherSelected = false;
 
     if (currentStep < steps.length - 1) {
       currentStep++;
       loadStep();
     } else {
-      // Create the date plan entry
-      let entry = {
-        where: selections[0],
-        activity: selections[1],
-        food: selections[2],
-        time: selections[3].time, // Extract time from the object
-        date: selections[3].date, // Extract date from the object
-        created: new Date().toLocaleString()
-      };
+        let entry = {
+            where: selections[0],
+            activity: selections[1],
+            food: selections[2],
+            time: selections[3].time,
+            date: selections[3].date
+        };
+    
+        fetch("https://script.google.com/macros/s/AKfycbw7rAsrKsVeci6uOuz8U4YnarxPxGUjdAqmjx53QR0RNoIrMAUI2MfRYTQx-67pMeUy0A/exec", {
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify(entry),
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log("Server Response:", data);  
+            alert("Your date plan has been recorded!");
+            window.location.reload();
+        })
+        .catch(error => console.error("Error:", error));
+    
 
-      let records = JSON.parse(localStorage.getItem("dateRecords")) || [];
-      records.push(entry);
-      localStorage.setItem("dateRecords", JSON.stringify(records));
-
-      alert("Your date plan has been recorded!");
-      currentStep = 0;
-      selections = {};
-      loadStep();
+        currentStep = 0;
+        selections = {};
+        loadStep();
     }
   }
 
