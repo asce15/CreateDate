@@ -1,6 +1,6 @@
 // Steps array: note that step 2 now uses custom inputs (time and date)
 const steps = [
-    {title: "📍Where to go:", 
+    {title: "📍Where to go?:", 
     choices: [
         { text: "SM", img: "sm.jpg" },
         { text: "Nuvali", img: "nuvali.jpg" },
@@ -8,7 +8,7 @@ const steps = [
         { text: "Pasig Esplanade", img: "pasig.jpg" }
         ]
     },
-    {title: "🎭Where type of date:", 
+    {title: "🎭What type of date?:", 
     choices: [
         { text: "Casual Dinner", img: "dinner.jpg" },
         { text: "Arcade Date", img: "arcade.jpg" },
@@ -16,7 +16,7 @@ const steps = [
         { text: "Movie Date", img: "movie.jpg" }
         ]
     },
-    {title: "🍔What food do you wanna eat:", 
+    {title: "🍔What food do you wanna eat?:", 
     choices: [
         { text: "Pizza", img: "pizza.jpg" },
         { text: "Chicken", img: "chicken.jpg" },
