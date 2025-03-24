@@ -32,6 +32,7 @@ h1, #choices-container, .other-next-container {
     }
 }
 .main-header {
+    text-align: center;
     font-size: 120px;
     font-weight: bold;
     color: #ff6b6b;
