@@ -306,6 +306,10 @@ button:hover {
         height: 150px;
         font-size: 18px;
     }
+    .choice-img {
+        width: 100px;
+        height: 100px;
+    }
 }
 
 .mute-container {
