@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Records</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #fae1dd; text-align: center; padding: 20px; }
+        h1 { color: #ff6b6b; font-family: 'Dancing Script', cursive; }
+        .record { background: white; padding: 10px; margin: 10px auto; width: 80%; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
+        button { background-color: #ff6b6b; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #ff3b3b; }
+        .delete-all { background-color: #6b6b6b; margin-top: 10px; }
+        .delete-all:hover { background-color: #444; }
+    </style>
+</head>
+<body>
+    <h1>Your Date Records</h1>
+    <div id="recordsContainer"></div>
+    <button class="delete-all" onclick="clearRecords()">🗑 Delete All Records</button>
+
+    <script>
+        function loadRecords() {
+            let records = JSON.parse(localStorage.getItem("dateRecords")) || [];
+            let container = document.getElementById("recordsContainer");
+            container.innerHTML = ""; // Clear old data
+
+            records.forEach((record, index) => {
+                let div = document.createElement("div");
+                div.className = "record";
+                div.innerHTML = `
+                    <p>📍 Where: ${record.where}</p>
+                    <p>🎭 Activity: ${record.activity}</p>
+                    <p>🍔 Food: ${record.food}</p>
+                    <p>⏰ Time: ${record.time}</p>
+                    <p>📅 Date: ${record.date}</p>
+                    <p>🕒 Created: ${record.created}</p>
+                    <button onclick="deleteRecord(${index})">❌ Delete</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function deleteRecord(index) {
+            let records = JSON.parse(localStorage.getItem("dateRecords")) || [];
+            records.splice(index, 1); // Remove the selected record
+            localStorage.setItem("dateRecords", JSON.stringify(records));
+            loadRecords(); // Refresh display
+        }
+
+        function clearRecords() {
+            if (confirm("Are you sure you want to delete all records?")) {
+                localStorage.removeItem("dateRecords");
+                loadRecords();
+            }
+        }
+
+        window.onload = loadRecords;
+    </script>
+</body>
+</html>

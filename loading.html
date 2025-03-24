@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="loadingcss.css">
+    
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart">
+            <div class="heart-piece-0"></div>
+            <div class="heart-piece-1"></div>
+            <div class="heart-piece-2"></div>
+            <div class="heart-piece-3"></div>
+            <div class="heart-piece-4"></div>
+            <div class="heart-piece-5"></div>
+            <div class="heart-piece-6"></div>
+            <div class="heart-piece-8"></div>
+            <div class="heart-piece-7"></div>
+            <div class="heart-piece-8"></div>
+        </div>
+    </div>
+    <audio id="bg-music" autoplay loop onloadedmetadata="this.volume=0.05">
+        <source src="bgmusic.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+    <script>
+        setTimeout(function() {
+            window.location.href = "final.html"; // Redirect to the final destination page
+        }, 5000); // Wait for 3 seconds before redirecting
+    </script>
+</body>
+</html>
