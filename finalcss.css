@@ -265,7 +265,7 @@ button:hover {
         padding-top: 40px;
     }
     .main-header{
-        font-size: 85px;
+        font-size: 70px;
     }
 
     h1{
@@ -283,7 +283,7 @@ button:hover {
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 510px) {
     body {
         padding-bottom: 40px; /* Adds space at the bottom */
         padding-top: 40px;
